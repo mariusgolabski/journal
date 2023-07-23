@@ -90,6 +90,8 @@ export default function App() {
       <main className="app__main">
         <EntryForm onAddEntry={handleAddEntry} />
         <EntriesSection
+          allEntriesCount={entries.length}
+          favoriteEntriesCount={favoriteEntries.length}
           entries={filter === "favorites" ? favoriteEntries : entries}
           filter={filter}
           onToggleFavorite={handleToggleFavorite}
