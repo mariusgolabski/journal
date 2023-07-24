@@ -1,4 +1,5 @@
-import { useState } from "react";
+// import { useState } from "react";
+import useLocalStorageState from "use-local-storage-state";
 import { uid } from "uid";
 
 import EntriesSection from "./components/EntriesSection";
@@ -43,8 +44,15 @@ const initialEntries = [
 ];
 
 export default function App() {
-  const [entries, setEntries] = useState(initialEntries);
-  const [filter, setFilter] = useState("all");
+  // const [entries, setEntries] = useState(initialEntries);
+  const [entries, setEntries] = useLocalStorageState("entries", {
+    defaultValue: initialEntries,
+  });
+  // const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useLocalStorageState("filter", {
+    defaultValue: "all",
+  });
+
   const favoriteEntries = entries.filter((entry) => entry.isFavorite);
 
   function handleShowFavoriteEntries() {
@@ -72,16 +80,21 @@ export default function App() {
   }
 
   function handleToggleFavorite(id) {
-    const updatedEntries = entries.map((entry) => {
-      if (entry.id === id) {
-        // Toggle the isFavorite property
-        return { ...entry, isFavorite: !entry.isFavorite };
-      }
-      return entry; // Return unchanged entries
-    });
+    // const updatedEntries = entries.map((entry) => {
+    //   if (entry.id === id) {
+    //     // Toggle the isFavorite property
+    //     return { ...entry, isFavorite: !entry.isFavorite };
+    //   }
+    //   return entry; // Return unchanged entries
+    // });
 
-    // Update the state with the new array
-    setEntries(updatedEntries);
+    // // Update the state with the new array
+    // setEntries(updatedEntries);
+    setEntries(
+      entries.map((entry) =>
+        entry.id === id ? { ...entry, isFavorite: !entry.isFavorite } : entry
+      )
+    );
   }
 
   return (
